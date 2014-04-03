@@ -31,7 +31,8 @@ import java.net.URLConnection;
 import java.util.logging.Logger;
 
 /**
- *
+ * This class is used to check for plugin updates posted to BukkitDev. It will post a notification in the console when
+ * a new version is found, and provides methods for plugins to check if a new version has been found for their own use.
  */
 public class UpdateChecker implements Runnable {
     private String slug;
