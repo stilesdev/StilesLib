@@ -1,4 +1,4 @@
-/**
+/*
  * This document is a part of the source code and related artifacts for CommonUtils, an open source library that
  * provides a set of commonly-used functions for Bukkit plugins.
  *
