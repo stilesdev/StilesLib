@@ -92,16 +92,20 @@ public class CalendarUtils {
      * @return the time difference between the two Calendar objects
      */
     public static String buildTimeDifference(Calendar first, Calendar second) {
-        if (first.equals(second)) {
+        Calendar firstCopy = new GregorianCalendar();
+        firstCopy.setTimeInMillis(first.getTimeInMillis());
+
+        if (firstCopy.equals(second)) {
             return "now";
         }
 
         StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < calendarConstants.length; i++) {
-            int difference = getDifference(calendarConstants[i], first, second);
+            int difference = getDifference(calendarConstants[i], firstCopy, second);
             if (difference > 0) {
-                s.append(difference).append(calendarConstantNames[i]).append((difference > 1) ? "s " : " ");
+                s.append(difference).append(" ").append(calendarConstantNames[i]).append((difference > 1) ? "s " : " ");
+                firstCopy.add(calendarConstants[i], difference);
             }
         }
 
