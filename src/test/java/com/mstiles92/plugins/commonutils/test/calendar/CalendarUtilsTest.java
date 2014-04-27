@@ -29,26 +29,23 @@ import java.util.GregorianCalendar;
 public class CalendarUtilsTest {
     private Calendar c1 = new GregorianCalendar();
     private Calendar c2 = new GregorianCalendar();
-    private static final int tolerance = 10;
+    private static final int tolerance = 10; // milliseconds allowed for computation time
 
     @Test
     public void testParseTimeDifference() {
         // test 1 second difference
         c1.setTimeInMillis(System.currentTimeMillis());
         c2 = CalendarUtils.parseTimeDifference("1s");
-        assertEquals(c1.getTimeInMillis() + (1000 * 1) + (System.currentTimeMillis() - c1.getTimeInMillis()), c2.getTimeInMillis());
         assertTrue(c2.getTimeInMillis() - c1.getTimeInMillis() - (1000 * 1) < tolerance);
 
         // test 5 second difference
         c1.setTimeInMillis(System.currentTimeMillis());
         c2 = CalendarUtils.parseTimeDifference("5s");
-        assertEquals(c1.getTimeInMillis() + (1000 * 5) + (System.currentTimeMillis() - c1.getTimeInMillis()), c2.getTimeInMillis());
         assertTrue(c2.getTimeInMillis() - c1.getTimeInMillis() - (1000 * 5) < tolerance);
 
         // test 5 minute 30 second difference
         c1.setTimeInMillis(System.currentTimeMillis());
         c2 = CalendarUtils.parseTimeDifference("5m30s");
-        assertEquals(c1.getTimeInMillis() + (1000 * 60 * 5) + (1000 * 30) + (System.currentTimeMillis() - c1.getTimeInMillis()), c2.getTimeInMillis());
         assertTrue(c2.getTimeInMillis() - c1.getTimeInMillis() - (1000 * 60 * 5) - (1000 * 30) < tolerance);
     }
 
