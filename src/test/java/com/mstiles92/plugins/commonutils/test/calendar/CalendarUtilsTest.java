@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
 public class CalendarUtilsTest {
     private Calendar c1 = new GregorianCalendar();
     private Calendar c2 = new GregorianCalendar();
-    private static final int tolerance = 10; // milliseconds allowed for computation time
+    private static final int tolerance = 20; // milliseconds allowed for computation time
 
     @Test
     public void testParseTimeDifference() {
