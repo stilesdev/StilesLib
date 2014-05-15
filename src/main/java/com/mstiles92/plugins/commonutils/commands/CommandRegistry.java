@@ -47,6 +47,7 @@ public class CommandRegistry {
     private CommandMap map;
     private Plugin plugin;
     private Logger logger;
+    private String noPermissionDefault = null;
 
     /**
      * The main constructor of the command registry.
@@ -68,6 +69,16 @@ public class CommandRegistry {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Set a message to be sent to the user when they do not have permission for a command, overriding the value set up
+     * in the Command annotation. Set the message to null to go back to using the values in the annotations.
+     *
+     * @param message the message to be used for players with no permission
+     */
+    public void setDefaultNoPermissionMessage(String message) {
+        noPermissionDefault = message;
     }
 
     /**
@@ -97,7 +108,7 @@ public class CommandRegistry {
                 Map.Entry<Method, Object> entry = commandMap.get(commandLabel);
                 Command command = entry.getKey().getAnnotation(Command.class);
                 if (!sender.hasPermission(command.permission())) {
-                    sender.sendMessage((sender instanceof Player ? ChatColor.RED : "") + command.noPermission());
+                    sender.sendMessage((sender instanceof Player ? ChatColor.RED : "") + (noPermissionDefault == null ? command.noPermission() : noPermissionDefault));
                     return true;
                 }
 
