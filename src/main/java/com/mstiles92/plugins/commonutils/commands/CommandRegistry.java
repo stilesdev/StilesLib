@@ -95,7 +95,7 @@ public class CommandRegistry {
      * This should be called in the plugin's main class, from the overridden onCommand method, forwarding all arguments
      * to the parameters in this method.
      */
-    public boolean handleCommand(CommandSender sender, String label, org.bukkit.command.Command cmd, String[] args) {
+    public boolean handleCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
         for (int i = args.length; i >= 0; i--) {
             StringBuilder sb = new StringBuilder();
             sb.append(label.toLowerCase());
