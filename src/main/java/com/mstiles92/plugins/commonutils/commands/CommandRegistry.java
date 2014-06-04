@@ -112,6 +112,11 @@ public class CommandRegistry {
                     return true;
                 }
 
+                if (command.playerOnly() && !(sender instanceof Player)) {
+                    sender.sendMessage(command.playerOnlyMessage());
+                    return true;
+                }
+
                 try {
                     entry.getKey().invoke(entry.getValue(), new Arguments(sender, cmd, label, args, commandLabel.split("\\.").length - 1));
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

@@ -71,4 +71,18 @@ public @interface Command {
      * @return a string showing the usage of the command
      */
     public String usage() default "";
+
+    /**
+     * Check if the command should only be used by a player.
+     *
+     * @return true if only players should be allowed to use the command, false otherwise
+     */
+    public boolean playerOnly() default false;
+
+    /**
+     * Get the message to be sent to the non-player command sender if they attempt to use a player-only command.
+     *
+     * @return the message to send to a non-player command sender if the command is player-only
+     */
+    public String playerOnlyMessage() default "You must be a player to use that command.";
 }
