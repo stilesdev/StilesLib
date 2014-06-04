@@ -48,6 +48,7 @@ public class CommandRegistry {
     private Plugin plugin;
     private Logger logger;
     private String noPermissionDefault = null;
+    private String playerOnlyDefault = null;
 
     /**
      * The main constructor of the command registry.
@@ -82,6 +83,16 @@ public class CommandRegistry {
     }
 
     /**
+     * Set a message to be sent to a non-player command sender when the command is marked as player-only, overriding the
+     * value set up in the Command annotation. Set the message to null to go back to using the values in the annotations.
+     *
+     * @param message the message to be used for non-player command senders attempting to use a player-only command
+     */
+    public void setDefaultPlayerOnlyMessage(String message) {
+        playerOnlyDefault = message;
+    }
+
+    /**
      * Get a set of all of labels for all of the commands that are registered.
      *
      * @return a Set of the labels of all registered commands
@@ -113,7 +124,7 @@ public class CommandRegistry {
                 }
 
                 if (command.playerOnly() && !(sender instanceof Player)) {
-                    sender.sendMessage(command.playerOnlyMessage());
+                    sender.sendMessage((playerOnlyDefault == null) ? command.playerOnlyMessage() : playerOnlyDefault);
                     return true;
                 }
 
