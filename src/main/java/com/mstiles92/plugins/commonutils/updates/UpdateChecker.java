@@ -18,6 +18,8 @@
 
 package com.mstiles92.plugins.commonutils.updates;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,30 +30,40 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Logger;
 
 /**
  * This class is used to check for plugin updates posted to BukkitDev. It will post a notification in the console when
  * a new version is found, and provides methods for plugins to check if a new version has been found for their own use.
  */
 public class UpdateChecker implements Runnable {
+    private Plugin plugin;
+    private int curseProjectId;
     private String slug;
-    private Logger logger;
+    private long period;
     private String currentVersion;
     private boolean updateAvailable = false;
     private String latestVersion;
 
     /**
-     * The main constructor for this class.
+     * The main constructor of this class.
      *
-     * @param slug the slug of the plugin's page on BukkitDev
-     * @param logger the logger for the plugin
-     * @param currentVersion the current running version of the plugin
+     * @param plugin instance of the plugin that updates will be checked for
+     * @param curseProjectId the id assigned to the plugin by the Curse ServerMods API
+     * @param period the time period between checks in milliseconds
      */
-    public UpdateChecker(String slug, Logger logger, String currentVersion) {
+    public UpdateChecker(Plugin plugin, int curseProjectId, String slug, long period) {
+        this.plugin = plugin;
+        this.curseProjectId = curseProjectId;
         this.slug = slug;
-        this.logger = logger;
-        this.currentVersion = currentVersion;
+        this.period = period;
+        currentVersion = plugin.getDescription().getVersion();
+    }
+
+    /**
+     * Start the update checker process.
+     */
+    public void start() {
+        Bukkit.getScheduler().runTaskTimer(plugin, this, 40, period);
     }
 
     /**
@@ -60,27 +72,29 @@ public class UpdateChecker implements Runnable {
     @Override
     public void run() {
         try {
-            URL url = new URL("http://api.bukget.org/3/plugins/bukkit/" + slug + "/latest");
+            URL url = new URL("https://api.curseforge.com/servermods/files?projectIds=" + curseProjectId);
             URLConnection connection = url.openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(10000);
+            connection.addRequestProperty("User-Agent", plugin.getName() + " (by mstiles92)");
             InputStream stream = connection.getInputStream();
             JSONParser parser = new JSONParser();
             Object o = parser.parse(new InputStreamReader(stream));
             stream.close();
 
-            JSONObject json = (JSONObject) o;
+            JSONArray array = (JSONArray) o;
+            if (array.size() > 0) {
+                JSONObject latest = (JSONObject) array.get(array.size() - 1);
+                latestVersion = (String) latest.get("name");
+                updateAvailable = isNewerVersion(latestVersion);
 
-            latestVersion = (String) ((JSONObject) ((JSONArray) json.get("versions")).get(0)).get("version");
-
-            updateAvailable = isNewerVersion(latestVersion);
-
-            if (updateAvailable) {
-                logger.info("Update available! New version: " + latestVersion);
-                logger.info("More information available at http://dev.bukkit.org/bukkit-plugins/" + slug);
+                if (updateAvailable) {
+                    plugin.getLogger().info("Update available! New version: " + latestVersion);
+                    plugin.getLogger().info("More information available at http://dev.bukkit.org/bukkit-plugins/" + slug);
+                }
             }
         } catch (IOException | ParseException | ClassCastException e) {
-            logger.info("Unable to check for updates. Will try again later. Error message: " + e.getMessage());
+            plugin.getLogger().info("Unable to check for updates. Will try again later. Error message: " + e.getMessage());
         }
     }
 
