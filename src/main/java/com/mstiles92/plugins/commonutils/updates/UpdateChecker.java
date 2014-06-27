@@ -87,6 +87,7 @@ public class UpdateChecker implements Runnable {
             if (array.size() > 0) {
                 JSONObject latest = (JSONObject) array.get(array.size() - 1);
                 latestVersion = (String) latest.get("name");
+                latestVersion = latestVersion.substring(1, latestVersion.length());
                 updateAvailable = isNewerVersion(latestVersion);
 
                 if (updateAvailable) {
