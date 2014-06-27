@@ -49,6 +49,7 @@ public class UpdateChecker implements Runnable {
      *
      * @param plugin instance of the plugin that updates will be checked for
      * @param curseProjectId the id assigned to the plugin by the Curse ServerMods API
+     * @param slug the slug of the plugin on BukkitDev
      * @param period the time period between checks in milliseconds
      */
     public UpdateChecker(Plugin plugin, int curseProjectId, String slug, long period) {
