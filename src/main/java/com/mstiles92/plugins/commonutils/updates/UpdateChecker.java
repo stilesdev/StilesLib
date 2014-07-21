@@ -18,8 +18,9 @@
 
 package com.mstiles92.plugins.commonutils.updates;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,7 +36,7 @@ import java.net.URLConnection;
  * This class is used to check for plugin updates posted to BukkitDev. It will post a notification in the console when
  * a new version is found, and provides methods for plugins to check if a new version has been found for their own use.
  */
-public class UpdateChecker implements Runnable {
+public class UpdateChecker extends BukkitRunnable {
     private Plugin plugin;
     private int curseProjectId;
     private String slug;
@@ -43,6 +44,7 @@ public class UpdateChecker implements Runnable {
     private String currentVersion;
     private boolean updateAvailable = false;
     private String latestVersion;
+    private BukkitTask task;
 
     /**
      * The main constructor of this class.
@@ -64,7 +66,16 @@ public class UpdateChecker implements Runnable {
      * Start the update checker process.
      */
     public void start() {
-        Bukkit.getScheduler().runTaskTimer(plugin, this, 40, period);
+        task = runTaskTimer(plugin, 40, period);
+    }
+
+    /**
+     * Stop the update checker process.
+     */
+    public void stop() {
+        if (task != null) {
+            task.cancel();
+        }
     }
 
     /**
