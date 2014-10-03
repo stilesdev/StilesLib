@@ -58,5 +58,9 @@ public abstract class MenuItem {
         return icon;
     }
 
+    public boolean visibleTo(Player player) {
+        return true;
+    }
+
     public abstract void onClick(MenuClickEvent event);
 }

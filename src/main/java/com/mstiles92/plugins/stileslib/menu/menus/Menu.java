@@ -53,7 +53,7 @@ public class Menu {
     public void open(Player player) {
         Inventory inventory = Bukkit.createInventory(new MenuInventoryHolder(this, Bukkit.createInventory(player, numRows * 9)), numRows * 9, title);
         for (int i = 0; i < contents.length; i++) {
-            if (contents[i] != null) {
+            if (contents[i] != null && contents[i].visibleTo(player)) {
                 inventory.setItem(i, contents[i].getDisplayIcon(player));
             }
         }
@@ -70,16 +70,19 @@ public class Menu {
 
         if (clickedSlot >= 0 && clickedSlot < numRows * 9 && contents[clickedSlot] != null) {
             Player player = (Player) event.getWhoClicked();
-            MenuClickEvent menuClickEvent = new MenuClickEvent(player);
-            contents[clickedSlot].onClick(menuClickEvent);
 
-            switch (menuClickEvent.getResult()) {
-                case REFRESH:
-                    refreshMenu(player);
-                    break;
-                case CLOSE:
-                    player.closeInventory();
-                    break;
+            if (contents[clickedSlot].visibleTo(player)) {
+                MenuClickEvent menuClickEvent = new MenuClickEvent(player);
+                contents[clickedSlot].onClick(menuClickEvent);
+
+                switch (menuClickEvent.getResult()) {
+                    case REFRESH:
+                        refreshMenu(player);
+                        break;
+                    case CLOSE:
+                        player.closeInventory();
+                        break;
+                }
             }
         }
     }
@@ -90,7 +93,7 @@ public class Menu {
 
             if (inventory.getHolder() instanceof MenuInventoryHolder && ((MenuInventoryHolder) inventory.getHolder()).getMenu().equals(this)) {
                 for (int i = 0; i < contents.length; i++) {
-                    if (contents[i] != null) {
+                    if (contents[i] != null && contents[i].visibleTo(player)) {
                         inventory.setItem(i, contents[i].getDisplayIcon(player));
                     }
                 }
