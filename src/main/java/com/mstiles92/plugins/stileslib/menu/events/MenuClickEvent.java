@@ -18,6 +18,7 @@
 
 package com.mstiles92.plugins.stileslib.menu.events;
 
+import com.mstiles92.plugins.stileslib.menu.menus.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -26,6 +27,7 @@ public class MenuClickEvent extends Event {
     private HandlerList handlerList = new HandlerList();
     private Player player;
     private Result result;
+    private Menu submenu;
 
     public MenuClickEvent(Player player) {
         this.player = player;
@@ -49,8 +51,18 @@ public class MenuClickEvent extends Event {
         this.result = result;
     }
 
+    public Menu getSubmenu() {
+        return submenu;
+    }
+
+    public void setSubmenu(Menu submenu) {
+        this.submenu = submenu;
+    }
+
     public enum Result {
         REFRESH,
-        CLOSE
+        CLOSE,
+        SUBMENU,
+        PREVIOUS
     }
 }

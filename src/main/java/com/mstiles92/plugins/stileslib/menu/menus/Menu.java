@@ -31,6 +31,7 @@ public class Menu {
     private String title;
     private int numRows;
     private MenuItem[] contents;
+    private Menu previousMenu;
 
     public Menu(String title, int numRows) {
         this.title = title;
@@ -48,6 +49,14 @@ public class Menu {
 
     public void setItem(int position, MenuItem item) {
         contents[position] = item;
+    }
+
+    public Menu getPreviousMenu() {
+        return previousMenu;
+    }
+
+    public void setPreviousMenu(Menu previousMenu) {
+        this.previousMenu = previousMenu;
     }
 
     public void open(Player player) {
@@ -79,6 +88,14 @@ public class Menu {
                     case CLOSE:
                         player.closeInventory();
                         break;
+                    case SUBMENU:
+                        Menu submenu = menuClickEvent.getSubmenu();
+                        submenu.setPreviousMenu(this);
+                        submenu.open(player);
+                        break;
+                    case PREVIOUS:
+                        previousMenu.open(player);
+                        break;
                 }
             }
         }
@@ -96,7 +113,7 @@ public class Menu {
 
     private void applyMenuToInventory(Inventory inventory, Player player) {
         inventory.clear();
-        
+
         for (int i = 0; i < contents.length; i++) {
             if (contents[i] != null && contents[i].visibleTo(player)) {
                 inventory.setItem(i, contents[i].getDisplayIcon(player));
