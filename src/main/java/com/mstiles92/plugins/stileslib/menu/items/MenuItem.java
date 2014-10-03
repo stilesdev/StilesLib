@@ -19,6 +19,7 @@
 package com.mstiles92.plugins.stileslib.menu.items;
 
 import com.mstiles92.plugins.stileslib.menu.events.MenuClickEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -37,11 +38,6 @@ public abstract class MenuItem {
     }
 
     public ItemStack getIcon() {
-        ItemStack icon = this.icon.clone();
-        ItemMeta meta = icon.getItemMeta();
-        meta.setDisplayName(displayName);
-        meta.setLore(lore);
-        icon.setItemMeta(meta);
         return icon;
     }
 
@@ -51,6 +47,15 @@ public abstract class MenuItem {
 
     public List<String> getLore() {
         return lore;
+    }
+
+    public ItemStack getDisplayItem(Player player) {
+        ItemStack icon = this.icon.clone();
+        ItemMeta meta = icon.getItemMeta();
+        meta.setDisplayName(displayName);
+        meta.setLore(lore);
+        icon.setItemMeta(meta);
+        return icon;
     }
 
     public abstract void onClick(MenuClickEvent event);
