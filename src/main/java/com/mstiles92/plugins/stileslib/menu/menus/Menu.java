@@ -54,7 +54,7 @@ public class Menu {
         Inventory inventory = Bukkit.createInventory(new MenuInventoryHolder(this, Bukkit.createInventory(player, numRows * 9)), numRows * 9, title);
         for (int i = 0; i < contents.length; i++) {
             if (contents[i] != null) {
-                inventory.setItem(i, contents[i].getDisplayItem(player));
+                inventory.setItem(i, contents[i].getDisplayIcon(player));
             }
         }
 
@@ -91,7 +91,7 @@ public class Menu {
             if (inventory.getHolder() instanceof MenuInventoryHolder && ((MenuInventoryHolder) inventory.getHolder()).getMenu().equals(this)) {
                 for (int i = 0; i < contents.length; i++) {
                     if (contents[i] != null) {
-                        inventory.setItem(i, contents[i].getDisplayItem(player));
+                        inventory.setItem(i, contents[i].getDisplayIcon(player));
                     }
                 }
             }

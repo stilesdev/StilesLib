@@ -49,7 +49,7 @@ public abstract class MenuItem {
         return lore;
     }
 
-    public ItemStack getDisplayItem(Player player) {
+    public ItemStack getDisplayIcon(Player player) {
         ItemStack icon = this.icon.clone();
         ItemMeta meta = icon.getItemMeta();
         meta.setDisplayName(displayName);
