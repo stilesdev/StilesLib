@@ -1,8 +1,8 @@
 /*
- * This document is a part of the source code and related artifacts for CommonUtils, an open source library that
+ * This document is a part of the source code and related artifacts for StilesLib, an open source library that
  * provides a set of commonly-used functions for Bukkit plugins.
  *
- * http://github.com/mstiles92/CommonUtils
+ * http://github.com/mstiles92/StilesLib
  *
  * Copyright (c) 2014 Matthew Stiles (mstiles92)
  *
@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations under the license.
  */
 
-package com.mstiles92.plugins.commonutils.commands;
+package com.mstiles92.plugins.stileslib.commands;
 
-import com.mstiles92.plugins.commonutils.commands.annotations.Command;
-import com.mstiles92.plugins.commonutils.commands.annotations.TabCompleter;
+import com.mstiles92.plugins.stileslib.commands.annotations.Command;
+import com.mstiles92.plugins.stileslib.commands.annotations.TabCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;

@@ -1,8 +1,8 @@
 /*
- * This document is a part of the source code and related artifacts for CommonUtils, an open source library that
+ * This document is a part of the source code and related artifacts for StilesLib, an open source library that
  * provides a set of commonly-used functions for Bukkit plugins.
  *
- * http://github.com/mstiles92/CommonUtils
+ * http://github.com/mstiles92/StilesLib
  *
  * Copyright (c) 2014 Matthew Stiles (mstiles92)
  *
@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the license.
  */
 
-package com.mstiles92.plugins.commonutils.updates;
+package com.mstiles92.plugins.stileslib.updates;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;

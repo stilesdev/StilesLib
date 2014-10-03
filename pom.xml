@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mstiles92.plugins</groupId>
-    <artifactId>CommonUtils</artifactId>
+    <artifactId>StilesLib</artifactId>
     <version>1.0.6-SNAPSHOT</version>
 
     <properties>
