@@ -18,6 +18,7 @@
 
 package com.mstiles92.plugins.stileslib.menu.items;
 
+import com.google.common.base.Preconditions;
 import com.mstiles92.plugins.stileslib.menu.events.MenuClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +33,9 @@ public abstract class MenuItem {
     private List<String> lore;
 
     public MenuItem(ItemStack icon, String displayName, String... lore) {
+        Preconditions.checkNotNull(icon, "The icon for a MenuItem can not be null!");
+        Preconditions.checkNotNull(displayName, "The display name for a MenuItem can not be null!");
+
         this.icon = icon;
         this.displayName = displayName;
         this.lore = Arrays.asList(lore);

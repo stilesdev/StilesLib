@@ -18,6 +18,7 @@
 
 package com.mstiles92.plugins.stileslib.menu;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,6 +42,8 @@ public class MenuListener implements Listener {
     }
 
     public void register(Plugin plugin) {
+        Preconditions.checkNotNull(plugin, "Plugin must not be null when registering MenuListener!");
+
         if (!isRegistered(plugin)) {
             this.plugin = plugin;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -48,7 +51,9 @@ public class MenuListener implements Listener {
     }
 
     public boolean isRegistered(Plugin plugin) {
-        if (this.plugin != null && this.plugin.equals(plugin)) {
+        Preconditions.checkNotNull(plugin, "Plugin must not be null when checking if MenuListener is registered!");
+
+        if (this.plugin.equals(plugin)) {
             for (RegisteredListener registeredListener : HandlerList.getRegisteredListeners(plugin)) {
                 if (registeredListener.getListener().equals(this)) {
                     return true;
@@ -64,7 +69,7 @@ public class MenuListener implements Listener {
             if (player.getOpenInventory() != null) {
                 Inventory inventory = player.getOpenInventory().getTopInventory();
 
-                if (inventory.getHolder() instanceof MenuInventoryHolder) {
+                if (inventory != null && inventory.getHolder() instanceof MenuInventoryHolder) {
                     player.closeInventory();
                 }
             }

@@ -18,6 +18,7 @@
 
 package com.mstiles92.plugins.stileslib.menu.menus;
 
+import com.google.common.base.Preconditions;
 import com.mstiles92.plugins.stileslib.menu.MenuInventoryHolder;
 import com.mstiles92.plugins.stileslib.menu.events.MenuClickEvent;
 import com.mstiles92.plugins.stileslib.menu.items.MenuItem;
@@ -34,6 +35,9 @@ public class Menu {
     private Menu previousMenu;
 
     public Menu(String title, int numRows) {
+        Preconditions.checkNotNull(title, "Menu title must not be null!");
+        Preconditions.checkArgument(numRows > 0 && numRows < 7, "Number of rows in menu must be between 1 and 6! Was: %s", numRows);
+
         this.title = title;
         this.numRows = numRows;
         contents = new MenuItem[numRows * 9];
@@ -48,6 +52,8 @@ public class Menu {
     }
 
     public void setItem(int position, MenuItem item) {
+        Preconditions.checkElementIndex(position, contents.length);
+
         contents[position] = item;
     }
 
@@ -60,6 +66,9 @@ public class Menu {
     }
 
     public void open(Player player) {
+        Preconditions.checkNotNull(player, "Player opening a menu inventory must not be null!");
+        Preconditions.checkState(player.isOnline(), "Player opening a menu inventory must be online!");
+
         Inventory inventory = Bukkit.createInventory(new MenuInventoryHolder(this, Bukkit.createInventory(player, numRows * 9)), numRows * 9, title);
 
         applyMenuToInventory(inventory, player);
@@ -90,10 +99,12 @@ public class Menu {
                         break;
                     case SUBMENU:
                         Menu submenu = menuClickEvent.getSubmenu();
+                        Preconditions.checkNotNull(submenu, "Result was set to SUBMENU, but no submenu was specified by MenuClickEvent.setSubmenu(Menu)");
                         submenu.setPreviousMenu(this);
                         submenu.open(player);
                         break;
                     case PREVIOUS:
+                        Preconditions.checkNotNull(previousMenu, "Result was set to PREVIOUS when there was no menu to go back to!");
                         previousMenu.open(player);
                         break;
                 }

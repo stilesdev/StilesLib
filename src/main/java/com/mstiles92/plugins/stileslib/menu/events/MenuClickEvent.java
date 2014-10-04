@@ -18,6 +18,7 @@
 
 package com.mstiles92.plugins.stileslib.menu.events;
 
+import com.google.common.base.Preconditions;
 import com.mstiles92.plugins.stileslib.menu.menus.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -48,6 +49,8 @@ public class MenuClickEvent extends Event {
     }
 
     public void setResult(Result result) {
+        Preconditions.checkNotNull(result, "Result can not be null in MenuClickEvent!");
+
         this.result = result;
     }
 
