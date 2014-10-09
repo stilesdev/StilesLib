@@ -103,12 +103,12 @@
 	    <repository>
 	        <id>mstiles92-repo</id>
 	        <name>mstiles92-repo-releases</name>
-	        <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+	        <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
 	    </repository>
 	    <snapshotRepository>
 	        <id>mstiles92-repo</id>
 	        <name>mstiles92-repo-snapshots</name>
-	        <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+	        <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
 	    </snapshotRepository>
 	</distributionManagement>
 </project>
