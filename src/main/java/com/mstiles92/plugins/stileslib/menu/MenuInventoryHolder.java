@@ -22,19 +22,38 @@ import com.mstiles92.plugins.stileslib.menu.menus.Menu;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
+/**
+ * An InventoryHolder used to hold a Menu along with its Inventory representation that will be displayed to the player.
+ */
 public class MenuInventoryHolder implements InventoryHolder {
     private Menu menu;
     private Inventory inventory;
 
+    /**
+     * Create an instance of MenuInventoryHolder to hold both a Menu and its Inventory representation.
+     *
+     * @param menu the Menu that the held Inventory represents
+     * @param inventory the Inventory that represents the held Menu
+     */
     public MenuInventoryHolder(Menu menu, Inventory inventory) {
         this.menu = menu;
         this.inventory = inventory;
     }
 
+    /**
+     * Get the Menu which is represented by the stored Inventory.
+     *
+     * @return the Menu from which the stored Inventory was generated
+     */
     public Menu getMenu() {
         return menu;
     }
 
+    /**
+     * Get the Inventory that represents the stored Menu.
+     *
+     * @return the Inventory that was generated from the stored Menu
+     */
     @Override
     public Inventory getInventory() {
         return inventory;

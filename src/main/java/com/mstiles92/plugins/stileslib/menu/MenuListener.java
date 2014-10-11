@@ -30,17 +30,34 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 
+/**
+ * The Listener that handles InventoryClickEvents for the menu system, passing on the events to the corresponding Menu.
+ * Implemented as a Singleton, as only one instance of this listener ever needs to be registered.
+ */
 public class MenuListener implements Listener {
     private static MenuListener instance = new MenuListener();
     private Plugin plugin;
 
+    /**
+     * Private constructor to enforce the singleton pattern.
+     */
     private MenuListener() {
     }
 
+    /**
+     * Get the static instance of this class.
+     *
+     * @return the instance of this class
+     */
     public static MenuListener getInstance() {
         return instance;
     }
 
+    /**
+     * Register this Listener with the specified Plugin to catch events for the menu system.
+     *
+     * @param plugin the Plugin for which this Listener should be registered
+     */
     public void register(Plugin plugin) {
         Preconditions.checkNotNull(plugin, "Plugin must not be null when registering MenuListener!");
 
@@ -50,6 +67,12 @@ public class MenuListener implements Listener {
         }
     }
 
+    /**
+     * Check if this Listener is registered with the specified Plugin.
+     *
+     * @param plugin the Plugin to be checked
+     * @return true if the Listener is registered with the Plugin, false if it is not
+     */
     public boolean isRegistered(Plugin plugin) {
         Preconditions.checkNotNull(plugin, "Plugin must not be null when checking if MenuListener is registered!");
 
@@ -64,6 +87,9 @@ public class MenuListener implements Listener {
         return false;
     }
 
+    /**
+     * Close every open Inventory that is a representation of a Menu.
+     */
     public static void closeAllMenus() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getOpenInventory() != null) {
@@ -76,6 +102,11 @@ public class MenuListener implements Listener {
         }
     }
 
+    /**
+     * Handle the PluginDisableEvent, closing all Menus opened by that Plugin.
+     *
+     * @param event the PluginDisableEvent that was fired as a result of a Plugin becoming disabled.
+     */
     @EventHandler
     public void onPluginDisable(PluginDisableEvent event) {
         if (this.plugin.equals(event.getPlugin())) {
@@ -84,6 +115,11 @@ public class MenuListener implements Listener {
         }
     }
 
+    /**
+     * Handle the InventoryClickEvent, passing on the event to any applicable Menu.
+     *
+     * @param event the InventoryClickEvent that was fired as a result of a Player clicking on an Inventory.
+     */
     @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getInventory().getHolder() instanceof MenuInventoryHolder) {
