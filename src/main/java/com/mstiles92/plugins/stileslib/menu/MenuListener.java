@@ -30,13 +30,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Listener that handles InventoryClickEvents for the menu system, passing on the events to the corresponding Menu.
  * Implemented as a Singleton, as only one instance of this listener ever needs to be registered.
  */
 public class MenuListener implements Listener {
     private static MenuListener instance = new MenuListener();
-    private Plugin plugin;
+    private List<Plugin> registeredPlugins = new ArrayList<>();
 
     /**
      * Private constructor to enforce the singleton pattern.
@@ -62,7 +65,7 @@ public class MenuListener implements Listener {
         Preconditions.checkNotNull(plugin, "Plugin must not be null when registering MenuListener!");
 
         if (!isRegistered(plugin)) {
-            this.plugin = plugin;
+            registeredPlugins.add(plugin);
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
         }
     }
@@ -76,7 +79,7 @@ public class MenuListener implements Listener {
     public boolean isRegistered(Plugin plugin) {
         Preconditions.checkNotNull(plugin, "Plugin must not be null when checking if MenuListener is registered!");
 
-        if (this.plugin.equals(plugin)) {
+        if (registeredPlugins.contains(plugin)) {
             for (RegisteredListener registeredListener : HandlerList.getRegisteredListeners(plugin)) {
                 if (registeredListener.getListener().equals(this)) {
                     return true;
@@ -103,15 +106,34 @@ public class MenuListener implements Listener {
     }
 
     /**
+     * Close every open Inventory that is a representation of a Menu from the specified Plugin.
+     *
+     * @param plugin the Plugin for which to close all menus
+     */
+    public static void closeAllMenus(Plugin plugin) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getOpenInventory() != null) {
+                Inventory inventory = player.getOpenInventory().getTopInventory();
+
+                if (inventory != null && inventory.getHolder() instanceof MenuInventoryHolder) {
+                    if (((MenuInventoryHolder) inventory.getHolder()).getMenu().getPlugin().equals(plugin)) {
+                        player.closeInventory();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Handle the PluginDisableEvent, closing all Menus opened by that Plugin.
      *
      * @param event the PluginDisableEvent that was fired as a result of a Plugin becoming disabled.
      */
     @EventHandler
     public void onPluginDisable(PluginDisableEvent event) {
-        if (this.plugin.equals(event.getPlugin())) {
-            closeAllMenus();
-            plugin = null;
+        if (registeredPlugins.contains(event.getPlugin())) {
+            closeAllMenus(event.getPlugin());
+            registeredPlugins.remove(event.getPlugin());
         }
     }
 

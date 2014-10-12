@@ -27,11 +27,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.Plugin;
 
 /**
  * A menu with clickable icons to be displayed to a Player in an Inventory.
  */
 public class Menu {
+    private Plugin plugin;
     private String title;
     private int numRows;
     private MenuItem[] contents;
@@ -40,16 +42,28 @@ public class Menu {
     /**
      * Create a basic Menu with the specified title and size.
      *
+     * @param plugin the Plugin that is creating this Menu
      * @param title the title to be shown to the Player in the open Inventory
      * @param numRows the number of rows that should be present in the Inventory, must be between 1 and 6
      */
-    public Menu(String title, int numRows) {
+    public Menu(Plugin plugin, String title, int numRows) {
+        Preconditions.checkNotNull(plugin, "Plugin must not be null!");
         Preconditions.checkNotNull(title, "Menu title must not be null!");
         Preconditions.checkArgument(numRows > 0 && numRows < 7, "Number of rows in menu must be between 1 and 6! Was: %s", numRows);
 
+        this.plugin = plugin;
         this.title = title;
         this.numRows = numRows;
         contents = new MenuItem[numRows * 9];
+    }
+
+    /**
+     * Get the Plugin that created this Menu.
+     *
+     * @return the plugin that created this Menu
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     /**
