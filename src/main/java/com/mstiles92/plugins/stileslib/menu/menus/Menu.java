@@ -184,6 +184,7 @@ public class Menu {
 
             if (inventory.getHolder() instanceof MenuInventoryHolder && ((MenuInventoryHolder) inventory.getHolder()).getMenu().equals(this)) {
                 applyMenuToInventory(inventory, player);
+                player.updateInventory();
             }
         }
     }
