@@ -28,6 +28,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * A menu with clickable icons to be displayed to a Player in an Inventory.
@@ -155,17 +156,17 @@ public class Menu {
                         refreshMenu(player);
                         break;
                     case CLOSE:
-                        player.closeInventory();
+                        closeMenuLater(player);
                         break;
                     case SUBMENU:
                         Menu submenu = menuClickEvent.getSubmenu();
                         Preconditions.checkNotNull(submenu, "Result was set to SUBMENU, but no submenu was specified by MenuClickEvent.setSubmenu(Menu)");
                         submenu.setPreviousMenu(this);
-                        submenu.open(player);
+                        openMenuLater(submenu, player);
                         break;
                     case PREVIOUS:
                         Preconditions.checkNotNull(previousMenu, "Result was set to PREVIOUS when there was no menu to go back to!");
-                        previousMenu.open(player);
+                        openMenuLater(previousMenu, player);
                         break;
                 }
             }
@@ -201,5 +202,38 @@ public class Menu {
                 inventory.setItem(i, contents[i].getDisplayIcon(player));
             }
         }
+    }
+
+    /**
+     * Close the specified Player's currently opened Inventory one tick later.
+     *
+     * @param player the Player whose currently open Inventory will be closed
+     */
+    private void closeMenuLater(final Player player) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.closeInventory();
+            }
+        };
+
+        runnable.runTaskLater(plugin, 1);
+    }
+
+    /**
+     * Open the specified Menu's Inventory to the specified Player two ticks later.
+     *
+     * @param menu the Menu that will be represented by the Inventory to be opened
+     * @param player the Player to who the Inventory will be opened
+     */
+    private void openMenuLater(final Menu menu, final Player player) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                menu.open(player);
+            }
+        };
+
+        runnable.runTaskLater(plugin, 2);
     }
 }
