@@ -31,6 +31,7 @@ import org.bukkit.event.HandlerList;
 public class MenuClickEvent extends Event {
     private HandlerList handlerList = new HandlerList();
     private Player player;
+    private Menu menu;
     private Result result;
     private Menu submenu;
 
@@ -38,9 +39,11 @@ public class MenuClickEvent extends Event {
      * Create a MenuClickEvent for the specified Player.
      *
      * @param player the Player who clicked an item in a Menu Inventory
+     * @param menu the Menu which was clicked
      */
-    public MenuClickEvent(Player player) {
+    public MenuClickEvent(Player player, Menu menu) {
         this.player = player;
+        this.menu = menu;
         this.result = Result.REFRESH;
     }
 
@@ -61,6 +64,15 @@ public class MenuClickEvent extends Event {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Get the Menu which created this event.
+     *
+     * @return the Menu which created this event
+     */
+    public Menu getMenu() {
+        return menu;
     }
 
     /**

@@ -148,7 +148,7 @@ public class Menu {
             Player player = (Player) event.getWhoClicked();
 
             if (contents[clickedSlot].visibleTo(player)) {
-                MenuClickEvent menuClickEvent = new MenuClickEvent(player);
+                MenuClickEvent menuClickEvent = new MenuClickEvent(player, this);
                 contents[clickedSlot].onClick(menuClickEvent);
 
                 switch (menuClickEvent.getResult()) {
