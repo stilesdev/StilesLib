@@ -178,6 +178,7 @@ public class Menu {
      *
      * @param player the Player who is currently viewing the Menu
      */
+    @SuppressWarnings("deprecation")
     private void refreshMenu(Player player) {
         if (player.getOpenInventory() != null) {
             Inventory inventory = player.getOpenInventory().getTopInventory();
