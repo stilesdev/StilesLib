@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the license.
  */
 
-package com.mstiles92.plugins.stileslib.test.calendar;
+package com.mstiles92.plugins.stileslib.calendar;
 
 import com.mstiles92.plugins.stileslib.calendar.CalendarUtils;
 import org.junit.Test;
