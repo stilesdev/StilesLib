@@ -18,7 +18,6 @@
 
 package com.mstiles92.plugins.stileslib.calendar;
 
-import com.mstiles92.plugins.stileslib.calendar.CalendarUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
