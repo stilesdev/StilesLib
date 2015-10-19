@@ -10,7 +10,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <bukkitVersion>1.7.10-R0.1-SNAPSHOT</bukkitVersion>
     </properties>
 
     <build>
@@ -66,8 +65,8 @@
 
     <repositories>
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public/</url>
+            <id>spigot-repo</id>
+            <url>http://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
@@ -75,7 +74,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>${bukkitVersion}</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -102,14 +101,12 @@
 
     <distributionManagement>
 	    <repository>
-	        <id>mstiles92-repo</id>
-	        <name>mstiles92-repo-releases</name>
-	        <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
+	        <id>mstiles92-releases</id>
+	        <url>https://mstiles92.com/nexus/content/repositories/releases</url>
 	    </repository>
 	    <snapshotRepository>
-	        <id>mstiles92-repo</id>
-	        <name>mstiles92-repo-snapshots</name>
-	        <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
+	        <id>mstiles92-snapshots</id>
+	        <url>https://mstiles92.com/nexus/content/repositories/snapshots</url>
 	    </snapshotRepository>
 	</distributionManagement>
 </project>
